@@ -1,0 +1,47 @@
+#table{
+    margin-left: calc( (100% - 500px)/2);
+    margin-right: calc( (100% - 500px)/2);
+    position: relative;
+    width: 500px;
+    height: 500px;
+    background-image : url("canvas_bckgrnd.jpg");
+    background-size : cover;
+    border-radius: 15px;
+}
+
+#board{
+    width: 450px;
+    height: 450px;
+    background-image : url("wood_bckgrnd.jpeg");
+    background-size : cover;
+    border-radius: 50%;
+    position : absolute;
+    left:25px;
+    top:25px;
+}
+
+.circle{
+    border-radius : 50%;
+    position : absolute;
+    background-color : white;
+    background-image : url("wood-hole.jpeg");
+    background-size : cover;
+}
+
+.soldier{
+    border-radius : 50%;
+    position : absolute;
+    background-size : cover;
+}
+
+#overlay{
+    height: 500px;
+    width:500px;
+    position : absolute;
+    left:0;
+    top:0;
+    /* background-color: red; */
+}
+
+
+
