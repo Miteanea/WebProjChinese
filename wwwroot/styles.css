@@ -34,10 +34,8 @@
     width: calc((2*12 - 2)*1px);
     border-radius : 50%;
     position : absolute;
-    background-color : white;
     background-image : url("/imgs/textures/wood-hole.jpeg");
     background-size : cover;
-    z-index: 3;
 }
 
 .circleHighlighted{
