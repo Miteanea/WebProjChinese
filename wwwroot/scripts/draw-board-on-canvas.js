@@ -77,6 +77,7 @@ $(document).ready(function () {
                 var coord = getCoord(ev.target.id);
                 board.changeCellValueTo(coord, element.id.charAt(0));
                 ev.target.appendChild(element);
+                $("*").removeClass("circleHighlighted");
             }
 
         }
@@ -155,7 +156,7 @@ $(document).ready(function () {
 
     }
 
-    function getNearbyCircleIds(coord) {
+    function getNearbyCellsCoords(coord) {
 
         var nearbyIds = [];
         var coords = [];
@@ -178,102 +179,106 @@ $(document).ready(function () {
         return nearbyIds;
     }
 
-    function getNextCoords(direction, coord) {
-        var nextCoord = {
-            i: coord.i + direction.i,
-            j: coord.j + direction.j,
-            id: `${coord.i + direction.i}.${coord.j + direction.j}`
-        };
-        return nextCoord;
-    }
+    function addEmptyCellsToMoves(movesColl, coord) {
+        var nearbyCellsCoord = getNearbyCellsCoords(coord);
+        console.log("empty cells nearbyCellsCoords");
+        console.log(nearbyCellsCoord);
 
-    function highlightNearbyEmpty(coord) {
-        var nearbyIds = getNearbyCircleIds(coord);
-
-        for (i = 0; i < nearbyIds.length; i++) {
-            if (nearbyIds[i] != null && board.getCellValue(nearbyIds[i]) == "e") {
-                var x = document.getElementById(nearbyIds[i].id);
-                $(x).addClass("circleHighlighted");
+        for (i = 0; i < nearbyCellsCoord.length; i++) {
+            if (nearbyCellsCoord[i] != null &&
+                board.getCellValue(nearbyCellsCoord[i]) == "e" &&
+                checkForUniqueness(movesColl, nearbyCellsCoord[i])) {
+                console.log("empty Cell Added");
+                console.log(nearbyCellsCoord[i]);
+                movesColl.push(nearbyCellsCoord[i]);
             }
         }
+        return movesColl;
     }
-    function getJumpTargets(coord) {
-        var nearbyIds = getNearbyCircleIds(coord);
-
-        var jumps = [];
-        var jumpTargets = [];
-
-        for (i = 0; i < nearbyIds.length; i++) {
-
-            if (nearbyIds[i] != null &&
-                board.getCellValue(nearbyIds[i]) != "e" &&
-                board.getCellValue(nearbyIds[i]) != "x") {
-                jump = {
-                    i: nearbyIds[i].i, j: nearbyIds[i].j,
-
-                    direction: { i: nearbyIds[i].i - coord.i, j: nearbyIds[i].j - coord.j }
-                };
-                jumps.push(jump);
-
-            }
+    function getTarget(cell, originCoord) {
+        var direction = { i: cell.i - originCoord.i, j: cell.j - originCoord.j };
+        var target = { i: cell.i + direction.i, j: cell.j + direction.j, origin: originCoord };
+        if (target.i > 16 || target.j > 16 || target.i < 0 || target.j < 0) {
+            target = null;
         }
-
-        for (let jump of jumps) {
-            var land = getNextCoords(jump.direction, jump);
-
-            if (board.getCellValue(land) == "e") {
-                $(`#${land.i}\\.${land.j}`).addClass("circleHighlighted");
-                console.log(`land.id = ${land.id}`);
-                jumpTargets.push(land);
-                console.log(jumpTargets);
-
-                var jt2 = getJumpTargets(land);
-                console.log(jt2);
-            }
-        }
-
-        // for (let jt of jumpTargets) {
-        //     land = (getNextCoords(direction, jt));
-        // }
-
-        return jumpTargets;
+        return target;
     }
 
+    function checkForUniqueness(collection, target) {
+        var unique = true;
+        for (let c of collection) {
+            if (target.i == c.i && target.j == c.j) {
+                unique = false;
+            }
+        }
+        return unique;
+    }
+
+    function addJumpCellsToMoves(movesColl, originCoord) {
+
+        var nearbyCellsCoord = getNearbyCellsCoords(originCoord);
+        console.log(`Origin:`);
+        console.log(originCoord);
+        console.log("Nearby Cells");
+        console.log(nearbyCellsCoord);
+        var uniqueOrigin = checkForUniqueness(movesColl, originCoord);
+        
+            for (let cell of nearbyCellsCoord) {
+                
+                if (cell != null &&
+                    board.getCellValue(cell) != "e" &&
+                    board.getCellValue(cell) != "x") {
+                    var targetCoord = getTarget(cell, originCoord);
+                    console.log(`Iterated target`);
+                    console.log(targetCoord);
+
+                    if (targetCoord != null &&
+                        (targetCoord.i != targetCoord.origin.i || targetCoord.j != targetCoord.origin.j)) {
+                        var unique = checkForUniqueness(movesColl, targetCoord);
+                        if (unique &&
+                            board.getCellValue(targetCoord) == "e") {
+                            console.log("added to moves collection");
+                            console.log(targetCoord);
+                            
+                            movesColl.push(targetCoord);
+                        }
+                        
+                        if (board.getCellValue(targetCoord) == "e" && unique) {
+                            movesColl = addJumpCellsToMoves(movesColl, targetCoord);
+                        }
+                    }
+                }
+            
+        }
+        return movesColl;
+    }
+
+    function getPossibleMoves(coord) {
+        var moves = [];
+
+        moves = addEmptyCellsToMoves(moves, coord);
+
+        moves = addJumpCellsToMoves(moves, coord);
+
+
+        return moves;
+    }
+
+    var possibleMoves = [];
 
     function highlightPossibleMoves(elementId) {
-
-        // if (jumpTargets != undefined) {
-        //     console.log("In Recursion")
-        //     console.log()
-        //     let nearbyIds = getNearbyCircleIds(elementId);
-        //     console.log(nearbyIds);
-        //     var jumpTargets = getJumpTargets(nearbyIds, coord);
-
-        //     for (let jt of jumpTargets) {
-        //         console.log("Recursion ElementId" + jt.id);
-        //         highlightPossibleMoves(jt.id);
-        //     }
-        // }
-
         var coord = getCoord(elementId);
+        possibleMoves = getPossibleMoves(coord);
 
-        highlightNearbyEmpty(coord);
-
-        var jumpTargets = getJumpTargets(coord);
-
-
-        // for (let jt of jumpTargets) {
-        //     var nearbyIds = getNearbyCircleIds(jt);
-        //     for (let coord of nearbyIds) {
-        //         if (board.getCellValue(coord) != "e") {
-        //             getJumpTargets(coord);
-        //         }
-        //     }
-        // }
+        for (let cell of possibleMoves) {
+            $(`#${cell.i}\\.${cell.j}`).addClass("circleHighlighted");
+        }
     }
 
     function undoHighlightPossibleMoves() {
-        $("*").removeClass("circleHighlighted")
+        possibleMoves = [];
+        $("*").removeClass("circleHighlighted");
+
     }
 
     function createSoldier() {
