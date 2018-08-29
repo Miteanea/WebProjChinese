@@ -39,7 +39,7 @@
 }
 
 .circleHighlighted{
-    box-shadow: inset 0 0 0 100px rgba(36, 70, 105, 0.74);
+    box-shadow: inset 0 0 0 100px rgba(36, 70, 105, 0.45);
 }
 
 .soldier{
@@ -53,6 +53,10 @@
     background-size : cover;
 }
 
+.soldierCurrent{
+    box-shadow: inset 0 0 0 100px rgb(224,224,224, 0.23);
+}
+
 .soldierSelected{
     /* size multiplied by 1.5times */
     width : calc((2 * 12 - 3) * 1.5* 0.8px);
@@ -64,6 +68,19 @@
     top : -3px;
 }
 
+.button {
+    background-color: #4CAf50;
+    border: 1px;
+    stroke: black;
+    border-radius: 5px;
+    color : white;
+    padding: 15px 32px;
+    text-align: center;
+    font-size: 16px;
+    position: absolute;
+    right: 20px;
+    top: 20px;
+}
 
 
 

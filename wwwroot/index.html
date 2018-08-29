@@ -6,9 +6,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Stern-Halma</title>
-    <link rel="stylesheet" href="styles.css" />
+
+    <link rel="stylesheet" href="/styles/styles.css" />
     <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
-    <script src="/scripts/draw-board-on-canvas.js"></script>
+    <script type="module" src="/scripts/main.js"></script>
+    <!-- <script src="/scripts/test.js"></script> -->
 </head>
 
 <body>
@@ -17,11 +19,11 @@
     <div>
         <h2>The game goes here</h2>
         <div id="table">
-            <canvas id="myCanvas" width="500px" height="500px"></canvas>
+            <!-- <canvas id="myCanvas" width="500px" height="500px"></canvas> -->
             <div id = "board"></div>
-            
-            <div id="overlay" ></div>
-            
+            <div id="overlay" >
+                <button class="button">End Turn</button>
+            </div>
         </div>
     </div>
 
