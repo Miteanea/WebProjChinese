@@ -1,4 +1,5 @@
 import { setBoardCellValue, getBoardLength, getBoardCellValue, isGameFinished} from "../board/board.js"
+import { goGame} from "../main.js"
 
 var currentPlayer = [];
 var players = [];
@@ -15,6 +16,7 @@ function startGame(playerCollection) {
 
     if(endGame){
         alert(`Congrats Player '${currentPlayer.color}`);
+        goGame();
         }
 }
 
