@@ -2,18 +2,19 @@ var spacing = 1;
 var circleId = "";
 var radius = 12;
 var nrOfPlayers = 6;
-    
-var teamColorsLinks = [
-        "url(\"/imgs/soldiers/Red.png\")",
-        "url(\"/imgs//soldiers/Yellow.png\")",
-        "url(\"/imgs//soldiers/Blue.png\")",
-        "url(\"/imgs//soldiers/White.png\")",
-        "url(\"/imgs//soldiers/Green.png\")",
-        "url(\"/imgs//soldiers/Black.png\")"
-    ];
+var boardLayout = getBoardLayout();
 
-import{setBoardCellValue, getBoardCellValue, isGameFinished, getBoardLength} from "./main.js"
-import{highlightPossibleMoves, undoHighlightPossibleMoves} from "./highlighting.js"
+var teamColorsLinks = [
+    "url(\"/imgs/soldiers/Red.png\")",
+    "url(\"/imgs//soldiers/Yellow.png\")",
+    "url(\"/imgs//soldiers/Blue.png\")",
+    "url(\"/imgs//soldiers/White.png\")",
+    "url(\"/imgs//soldiers/Green.png\")",
+    "url(\"/imgs//soldiers/Black.png\")"
+];
+
+import { setBoardCellValue, getBoardLength, getBoardCellValue, isGameFinished, getBoardLayout } from "./board.js"
+import { highlightPossibleMoves, undoHighlightPossibleMoves } from "./highlighting.js"
 
 function drawBoard(boardLayout) {
     var boardElement = document.createElement("div");
@@ -132,7 +133,7 @@ function placeSoldiers() {
         case 6:
             for (i = 0; i < getBoardLength(); i++) {
                 for (j = 0; j < getBoardLength(); j++) {
-                    var coord = {i: i, j: j};
+                    var coord = { i: i, j: j };
 
                     if (getBoardCellValue(coord) != "x" &&
                         getBoardCellValue(coord) != "e") {
@@ -140,7 +141,7 @@ function placeSoldiers() {
 
                         switch (getBoardCellValue(coord)) {
                             case "r":
-                                $(soldier).css("backgroundImage" , `${teamColorsLinks[0]}`);
+                                $(soldier).css("backgroundImage", `${teamColorsLinks[0]}`);
                                 soldier.id = "r" + `${i}.${j}`; break;
                             case "y":
                                 soldier.style.backgroundImage = `${teamColorsLinks[1]}`;

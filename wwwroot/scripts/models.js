@@ -1,8 +1,7 @@
-import { setBoardCellValue } from "./main.js"
-import { getBoardCellValue, getCoord } from "./main.js"
-import { getBoardLength } from "./main.js"
-import { getPossibleMovesMain } from "./main.js"
-import { checkForUniqueness } from "./possible-moves-calc.js"
+
+import { getCoord } from "./main.js"
+import { setBoardCellValue, getBoardLength, getBoardCellValue, isGameFinished} from "./board/board.js"
+import { checkForUniqueness } from "./logic/possible-moves-calc.js"
 
 function Player(playerColor) {
     this.color = playerColor;
@@ -70,9 +69,7 @@ Player.prototype.createTargetCell = function (playerColor) {
     return targetCell;
 }
 Player.prototype.toggleCurrentPlayer = function (playerColor) {
-    console.log("what they want?")
     var color = playerColor;
-    console.log(color);
     $(`.soldier[id^='${color}']`).toggleClass("soldierCurrent");
 }
 
@@ -90,21 +87,7 @@ Piece.prototype.getPossibleMoves = function () {
     return possmov;
 };
 Piece.prototype.getPaths = function () {
-    var possmov = this.getPossibleMoves();
-    var paths = [];
-    var originCoord = { i: this.circle[0].i, j: this.circle[0].j };
-
-    for (let cell of possmov) {
-        if (Math.abs(cell.i - this.i) <= 1 && Math.abs(cell.j - this.j) <= 1) {
-            if (checkForUniqueness(paths, cell)) {
-                paths.push([cell]);
-            }
-        }
-    }
-    
-    var path = addPaths(paths, originCoord);
-    paths.push(path);
-    return paths;
+   
 }
 function addPaths(movesColl, originCoord) {
 

@@ -1,7 +1,6 @@
 import { Player } from "../models.js"
 import { addPlayer } from "../main.js"
-import { getBoardCellValue } from "../main.js"
-import { getBoardLength } from "../main.js"
+import { setBoardCellValue, getBoardLength, getBoardCellValue, isGameFinished} from "../board/board.js"
 
 var teamColors = ["r", "y", "B", "w", "g", "b"];
 var winLayouts = [];

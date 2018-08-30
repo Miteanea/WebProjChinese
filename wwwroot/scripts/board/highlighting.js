@@ -1,5 +1,5 @@
-import { getPossibleMoves } from "./possible-moves-calc.js"
-import { getCoord, setPossibleMovesMain } from "./main.js"
+import { getPossibleMoves } from "../logic/possible-moves-calc.js"
+import { getCoord, setPossibleMovesMain } from "../main.js"
 
 var possibleMovesCollection = []
 
