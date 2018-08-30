@@ -73,6 +73,6 @@ $(document).ready(function () {
 });
 
 export {
-    getCoord, setPossibleMovesMain, addPlayer, getPossibleMovesMain
+    getCoord, setPossibleMovesMain, addPlayer, getPossibleMovesMain, goGame
 }
 

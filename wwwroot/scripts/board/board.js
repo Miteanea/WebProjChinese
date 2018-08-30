@@ -1,4 +1,5 @@
 import { getWinConditions } from "../logic/win-conditions.js"
+import { goGame } from "../main.js";
 
 var board = {
     boardLayout: [
@@ -44,6 +45,7 @@ var board = {
             if (count == goal) {
                 alert(`Player ${wc.color} Wins!!! `);
                 endGame = true;
+                goGame();
             }
             count = 0;
             console.log("keep going...")
