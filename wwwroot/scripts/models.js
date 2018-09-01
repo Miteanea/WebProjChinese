@@ -1,7 +1,6 @@
 
 import { getCoord } from "./main.js"
 import { setBoardCellValue, getBoardLength, getBoardCellValue, isGameFinished} from "./board/board.js"
-import { checkForUniqueness } from "./logic/possible-moves-calc.js"
 
 function Player(playerColor) {
     this.color = playerColor;
@@ -79,6 +78,9 @@ function Piece(color, i, j) {
     this.j = j;
     this.element = $(`#${color}${this.i}\\.${this.j}`);
     this.circle = $(`#${color}${i}\\.${j}`).parent();
+    this.id = `${color}${this.i}.${this.j}`;
+    this.moved = false;
+    this.move = {from:{ i:this.i, j:this.j}, to:{i:null, j:null} }
 }
 Piece.prototype.getPossibleMoves = function () {
     this.element.trigger("mouseover");
@@ -86,59 +88,12 @@ Piece.prototype.getPossibleMoves = function () {
     this.element.trigger("mouseleave");
     return possmov;
 };
-Piece.prototype.getPaths = function () {
-   
+
+
+function Coord(i,j){
+    this.i=i;
+    this.j = j;
 }
-function addPaths(movesColl, originCoord) {
-
-    var nearbyCellsCoord = getNearbyCellsCoords(originCoord);
-
-    for (let cell of nearbyCellsCoord) {
-
-        if (cell != null &&
-            getBoardCellValue(cell) != "e" &&
-            getBoardCellValue(cell) != "x") {
-            var targetCoord = getTarget(cell, originCoord);
-
-            if (targetCoord != null &&
-                (targetCoord.i != targetCoord.origin.i || targetCoord.j != targetCoord.origin.j)) {
-                var unique = checkForUniqueness(movesColl, targetCoord);
-                if (unique &&
-                    getBoardCellValue(targetCoord) == "e") {
-                    path.push(targetCoord);
-                }
-
-                if (getBoardCellValue(targetCoord) == "e" && unique) {
-                    path = addJumpCellsToMoves(path, targetCoord);
-                }
-            }
-        }
-    }
-    return movesColl;
-}
-function getNearbyCellsCoords(coord) {
-
-    var nearbyIds = [];
-    var coords = [];
-
-    var c1 = { i: coord.i - 1, j: coord.j + 0, id: `${coord.i - 1}.${coord.j + 0}` };
-    var c2 = { i: coord.i - 1, j: coord.j + 1, id: `${coord.i - 1}.${coord.j + 1}` };
-    var c3 = { i: coord.i - 0, j: coord.j + 1, id: `${coord.i - 0}.${coord.j + 1}` };
-    var c4 = { i: coord.i + 1, j: coord.j + 0, id: `${coord.i + 1}.${coord.j + 0}` };
-    var c5 = { i: coord.i + 1, j: coord.j - 1, id: `${coord.i + 1}.${coord.j - 1}` };
-    var c6 = { i: coord.i - 0, j: coord.j - 1, id: `${coord.i - 0}.${coord.j - 1}` };
-
-    coords.push(c1, c2, c3, c4, c5, c6);
-
-    for (var i = 0; i < coords.length; i++) {
-        if ((coords[i].i <= 16 && coords[i].i >= 0) && (coords[i].j <= 16 && coords[i].j >= 0)) {
-            nearbyIds.push(coords[i]);
-        }
-        else { nearbyIds.push(coords[i] = null) }
-    }
-    return nearbyIds;
-}
-
 export {
-    Player, Piece
+    Player, Piece, Coord
 }

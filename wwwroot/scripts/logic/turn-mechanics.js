@@ -1,5 +1,5 @@
 import { setBoardCellValue, getBoardLength, getBoardCellValue, isGameFinished } from "../board/board.js"
-import { goGame } from "../main.js"
+import { goGame, getObjectByElementId } from "../main.js"
 
 var currentPlayer = [];
 var players = [];
@@ -13,19 +13,30 @@ function startGame(playerCollection) {
     console.log(currentPlayer);
 
     turn();
-
 }
 
 function turn() {
     if (currentPlayer != null) {
         currentPlayer.toggleCurrentPlayer(currentPlayer.color);
-        alert(`player '${currentPlayer.color}' You have 2 minutes`);
-        // currentPlayer.makeMove();
-
+        
         var dfd = $.Deferred();
-        dfd.done(isGameFinished, thisTurn, currentPlayer.toggleCurrentPlayer, changePlayer, turn);
+        dfd.done(isGameFinished, thisTurn, setMovedToFalse, currentPlayer.toggleCurrentPlayer, changePlayer, turn);
 
         $("button").on("click", function () { dfd.resolve(currentPlayer.color) });
+    }
+}
+
+function setMovedToFalse(){
+    var pieces = $(".soldier");
+    for(let piece of pieces){
+        let object = getObjectByElementId(piece.id);
+
+        if(object.moved){
+            object.moved = false;
+            object.move.from = object.move.to;
+            object.move.to.i = null;
+            object.move.to.j = null;
+        }
     }
 }
 

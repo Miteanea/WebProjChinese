@@ -5,20 +5,29 @@ function addPlayer(player) {
     players.push(player);
 }
 
+function getObjectByElementId(id) {
+    for (let player of players) {
+        for (let piece of player.pieceCollection) {
+            if (piece.id == id) {
+                return piece;
+            }
+        }
+    }
+}
 
 var possibleMoves = [];
 
 function setPossibleMovesMain(possibleMovesCollection) {
     possibleMoves = possibleMovesCollection;
 }
-function getPossibleMovesMain(){
+function getPossibleMovesMain() {
     return possibleMoves;
 }
 
 import { drawBoard } from "./board/board-creation.js";
-import { createPlayers, getWinConditions } from "./logic/win-conditions.js";
-import { startGame} from "./logic/turn-mechanics.js"
-import { getBoardLayout, isGameFinished} from "./board/board.js"
+import { createPlayers } from "./logic/win-conditions.js";
+import { startGame } from "./logic/turn-mechanics.js"
+import { getBoardLayout, isGameFinished } from "./board/board.js"
 
 
 function getCoord(elementId) {
@@ -51,28 +60,33 @@ function getCoord(elementId) {
 
 }
 
-function reset(){
+function reset() {
 
     drawBoard(boardLayout);
     createPlayers(nrOfPlayers);
     console.log(players);
-    alert("let the game begin...!!!!");
+    $( "#curtain" ).on("click", function() {
+        $( "#curtain" ).fadeOut( "slow");
+        $("h1").hide("slow");        
+    });    
 }
-function goGame(){
+
+function goGame() {
     reset();
     startGame(players);
-    
-    if(isGameFinished())
-    {
-       goGame();
+
+    if (isGameFinished()) {
+        $("#curtain").fadeIn("slow");
+        goGame();
     }
 }
 
-$(document).ready(function () {
-   goGame();
+$(window).on("load",function () {
+    
+    goGame();
 });
 
 export {
-    getCoord, setPossibleMovesMain, addPlayer, getPossibleMovesMain, goGame
+    getCoord, setPossibleMovesMain, addPlayer, getPossibleMovesMain, goGame, getObjectByElementId
 }
 

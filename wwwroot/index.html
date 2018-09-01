@@ -7,27 +7,35 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Stern-Halma</title>
 
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+        crossorigin="anonymous">
     <link rel="stylesheet" href="/styles/styles.css" />
     <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
-    <script type="module" src="/scripts/main.js"></script>
-    <!-- <script src="/scripts/test.js"></script> -->
+
 </head>
 
 <body>
-    <h1> Great game of chinese checkers!</h1>
-
+    <div class="container">
+        <h1> Great game of chinese checkers!</h1>
+    </div>
     <div>
-        <h2>The game goes here</h2>
         <div id="table">
-            <!-- <canvas id="myCanvas" width="500px" height="500px"></canvas> -->
-            <div id = "board"></div>
-            <div id="overlay" >
-                <button class="button">End Turn</button>
+            <div id="board"></div>
+            <div id="overlay">
+                <button class="btn btn-lg btn-succes button">End Turn</button>
+                <button id="restart" class="btn btn-lg btn-danger button">Restart</button>
+                <a href="https://www.wikihow.com/Play-Chinese-Checkers" target="_blank">
+                    <img src="imgs/textures/Rules.png" class="rules">
+                </a>
+                <div id="curtain">
+                    <img src="imgs/textures/Start.png" class="start">
+                </div>
             </div>
         </div>
     </div>
 
     <h4>*which is not chinese by the way!</h4>
 </body>
+<script type="module" src="/scripts/main.js"></script>
 
 </html>

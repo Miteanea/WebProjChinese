@@ -2,7 +2,6 @@ var spacing = 1;
 var circleId = "";
 var radius = 12;
 var nrOfPlayers = 6;
-var boardLayout = getBoardLayout();
 
 var teamColorsLinks = [
     "url(\"/imgs/soldiers/Red.png\")",
@@ -13,14 +12,16 @@ var teamColorsLinks = [
     "url(\"/imgs//soldiers/Black.png\")"
 ];
 
-import { setBoardCellValue, getBoardLength, getBoardCellValue, isGameFinished, getBoardLayout } from "./board.js"
+import { setBoardCellValue, getBoardLength, getBoardCellValue } from "./board.js"
 import { highlightPossibleMoves, undoHighlightPossibleMoves } from "./highlighting.js"
+import { getObjectByElementId } from "../main.js"
+import {Coord} from "../models.js"
 
 function drawBoard(boardLayout) {
     var boardElement = document.createElement("div");
     $(boardElement).addClass("board");
     $("#table").append(boardElement);
-    $(".button").on()
+    
     drawAtXY(boardLayout);
     placeSoldiers();
 }
@@ -85,7 +86,7 @@ function drawCircle(x, y, circleId) {
     };
 
     circle.ondrop = function (ev) {
-        if (circle.childElementCount == 0 && $(this).hasClass("circleHighlighted")) {
+        if (circle.childElementCount == 0 && $(circle).hasClass("circleHighlighted")) {
             event.preventDefault();
             var data = ev.dataTransfer.getData("text");
             var element = document.getElementById(data);
@@ -93,6 +94,20 @@ function drawCircle(x, y, circleId) {
 
             setBoardCellValue(coord, element.id.charAt(0));
             ev.target.appendChild(element);
+            var piece = getObjectByElementId(data);
+
+            if(!piece.moved)
+            {
+                piece.moved = true;
+                piece.move.to.i = coord.i;
+                piece.move.to.j = coord.j;
+            }
+            else{
+                piece.moved = false;
+                piece.move.to.i = null;
+                piece.move.to.j = null;
+            }
+                        
             $("*").removeClass("circleHighlighted");
         }
     }
@@ -103,24 +118,52 @@ function createSoldier() {
     var soldier = document.createElement("div");
 
     $(soldier).addClass("soldier");
-    soldier.draggable = true;
 
     $(soldier).on("mouseover", function () {
-        $(this).addClass("soldierSelected");
-        highlightPossibleMoves(soldier.parentElement.id);
+        if ($(soldier).hasClass("soldierCurrent")) {
+
+            var soldiers = $(".soldier");
+            var pieceMoved = false;
+
+            for (let soldier of soldiers) {
+                if (getObjectByElementId(soldier.id).moved) {
+                    pieceMoved = true;
+                }
+            }
+
+            if (pieceMoved && !getObjectByElementId(soldier.id).moved) {
+                $(soldier).attr("draggable", "false");
+            }
+            else if (pieceMoved && getObjectByElementId(soldier.id).moved) {
+                $(soldier).attr("draggable", "true");
+                $(soldier).addClass("soldierSelected");
+                let move = getObjectByElementId(soldier.id).move;
+                let originCoord = new Coord(move.from.i, move.from.j);
+                $(`#${originCoord.i}\\.${originCoord.j}`).addClass("circleHighlighted");
+            }
+            else if (!pieceMoved) {
+                $(soldier).attr("draggable", "true");
+                $(soldier).addClass("soldierSelected");
+                highlightPossibleMoves(soldier.parentElement.id);
+            }
+
+        }
     });
 
     $(soldier).on("mouseleave",
         function () {
-            $(this).removeClass("soldierSelected");
-            undoHighlightPossibleMoves();
+            if ($(soldier).hasClass("soldierCurrent")) {
+                $(soldier).attr("draggable", "false");
+                $(soldier).removeClass("soldierSelected");
+                undoHighlightPossibleMoves();
+            }
         });
 
     soldier.ondragstart = function drag(ev) {
         ev.dataTransfer.setData("text", ev.target.id);
         var coord = getCoord(soldier.parentElement.id);
         setBoardCellValue(coord, "e");
-        $(this).addClass("soldierSelected");
+        $(soldier).addClass("soldierSelected");
     }
     return soldier;
 }
