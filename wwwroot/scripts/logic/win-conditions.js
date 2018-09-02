@@ -1,13 +1,13 @@
 import { Player } from "../models.js"
 import { addPlayer } from "../main.js"
-import { setBoardCellValue, getBoardLength, getBoardCellValue, isGameFinished} from "../board/board.js"
+import { getBoardLength, getBoardCellValue} from "../board/board.js"
 
-var teamColors = ["r", "y", "B", "w", "g", "b"];
+var teamColors=["r", "w"];
+// var teamColors = ["r", "y", "B", "w", "g", "b"];
 var winLayouts = [];
 var winConditions = [];
 
 function fillArray() {
-
       for (var i = 0; i < getBoardLength(); i++) {
             winLayouts.push([])
             for (var j = 0; j < getBoardLength(); j++) {
@@ -88,6 +88,7 @@ function createPlayers(nrOfPlayers) {
       }
 
       for (let col of colors) {
+            console.log(col);
             var pl = new Player(col);
             addPlayer(pl);
       }

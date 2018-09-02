@@ -22,19 +22,31 @@
         <div id="table">
             <div id="board"></div>
             <div id="overlay">
-                <button class="btn btn-lg btn-succes button">End Turn</button>
                 <button id="restart" class="btn btn-lg btn-danger button">Restart</button>
                 <a href="https://www.wikihow.com/Play-Chinese-Checkers" target="_blank">
                     <img src="imgs/textures/Rules.png" class="rules">
                 </a>
                 <div id="curtain">
+                    <button id="2pl" class="btn btn-lg btn-outline-dark ">2 Players</button>
                     <img src="imgs/textures/Start.png" class="start">
+                    <button id="6pl" class="btn btn-lg btn-outline-dark ">6 Players</button>
+
+                </div>
+                <div class="container message"></div>
+                <div class="endTurnMessage">
+                    <div class="messageContainer">
+                        <div class="endTurn">End Turn?</div>
+                        <div class="yesNoContainer">
+                            <button id="yes" class="btn btn-outline-dark yesNo">Yes</button>
+                            <button id="no" class="btn btn-outline-dark yesNo">No</button>
+                        </div>
+                        </p>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
 
-    <h4>*which is not chinese by the way!</h4>
+        <h4>*which is not chinese by the way!</h4>
 </body>
 <script type="module" src="/scripts/main.js"></script>
 

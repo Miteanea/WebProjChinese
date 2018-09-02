@@ -1,28 +1,25 @@
+import { setBoardCellValue, getBoardLength, getBoardCellValue } from "./board.js"
+import { highlightPossibleMoves, undoHighlightPossibleMoves } from "./highlighting.js"
+import { getObjectByElementId, nrOfPlayers } from "../main.js"
+import { Coord } from "../models.js"
+
 var spacing = 1;
 var circleId = "";
 var radius = 12;
-var nrOfPlayers = 6;
 
-var teamColorsLinks = [
-    "url(\"/imgs/soldiers/Red.png\")",
-    "url(\"/imgs//soldiers/Yellow.png\")",
-    "url(\"/imgs//soldiers/Blue.png\")",
-    "url(\"/imgs//soldiers/White.png\")",
-    "url(\"/imgs//soldiers/Green.png\")",
-    "url(\"/imgs//soldiers/Black.png\")"
-];
 
-import { setBoardCellValue, getBoardLength, getBoardCellValue } from "./board.js"
-import { highlightPossibleMoves, undoHighlightPossibleMoves } from "./highlighting.js"
-import { getObjectByElementId } from "../main.js"
-import {Coord} from "../models.js"
+var teamColorsLinks = ["url(\"/imgs/soldiers/Red.png\")", "url(\"/imgs//soldiers/Yellow.png\")",
+    "url(\"/imgs//soldiers/Blue.png\")", "url(\"/imgs//soldiers/White.png\")",
+    "url(\"/imgs//soldiers/Green.png\")", "url(\"/imgs//soldiers/Black.png\")"];
+
 
 function drawBoard(boardLayout) {
     var boardElement = document.createElement("div");
     $(boardElement).addClass("board");
     $("#table").append(boardElement);
-    
+
     drawAtXY(boardLayout);
+    console.log(boardLayout)
     placeSoldiers();
 }
 
@@ -30,7 +27,6 @@ function drawAtXY(boardLayout) {
 
     var middle = $("#table").width() / 2;
     var startY = ($("#table").height() - (boardLayout.length * (radius * 2 + 2 * spacing))) / 2 + radius + spacing;
-
     var cellIds = [];
 
     for (var i = 0; i < boardLayout.length; i++) {
@@ -38,7 +34,6 @@ function drawAtXY(boardLayout) {
         cellIds = [];
 
         for (var k = 0; k < boardLayout[i].length; k++) {
-
             if (boardLayout[i][k] != "x") {
                 var id = `${i}.${k}`;
                 cellIds.push(id);
@@ -46,7 +41,6 @@ function drawAtXY(boardLayout) {
         }
 
         for (var j = 0; j < cellIds.length; j++) {
-
             if (cellIds.length == 1) {
                 startX = middle;
             }
@@ -61,7 +55,6 @@ function drawAtXY(boardLayout) {
                 circleId = cellIds[j];
                 drawCircle(startX, startY, circleId);
                 startX += (2 * radius + 2 * spacing);
-
             }
             startY += (2 * radius + 2 * spacing);
         }
@@ -92,23 +85,25 @@ function drawCircle(x, y, circleId) {
             var element = document.getElementById(data);
             var coord = getCoord(ev.target.id);
 
-            setBoardCellValue(coord, element.id.charAt(0));
-            ev.target.appendChild(element);
             var piece = getObjectByElementId(data);
+            setBoardCellValue(coord, element.id.charAt(0));
+            setBoardCellValue(piece.move.from, "e");
+            
+            ev.target.appendChild(element);
 
-            if(!piece.moved)
-            {
+            if (!piece.moved) {
                 piece.moved = true;
                 piece.move.to.i = coord.i;
                 piece.move.to.j = coord.j;
             }
-            else{
+            else {
                 piece.moved = false;
                 piece.move.to.i = null;
                 piece.move.to.j = null;
             }
-                        
+
             $("*").removeClass("circleHighlighted");
+            promptEndTurn();
         }
     }
     $("#overlay").append(circle);
@@ -161,15 +156,13 @@ function createSoldier() {
 
     soldier.ondragstart = function drag(ev) {
         ev.dataTransfer.setData("text", ev.target.id);
-        var coord = getCoord(soldier.parentElement.id);
-        setBoardCellValue(coord, "e");
         $(soldier).addClass("soldierSelected");
     }
     return soldier;
 }
 
 function placeSoldiers() {
-    let i, j;
+    var i, j;
 
     switch (nrOfPlayers) {
 
@@ -187,24 +180,58 @@ function placeSoldiers() {
                                 $(soldier).css("backgroundImage", `${teamColorsLinks[0]}`);
                                 soldier.id = "r" + `${i}.${j}`; break;
                             case "y":
-                                soldier.style.backgroundImage = `${teamColorsLinks[1]}`;
+                                $(soldier).css("backgroundImage", `${teamColorsLinks[1]}`);
                                 soldier.id = "y" + `${i}.${j}`; break;
                             case "B":
-                                soldier.style.backgroundImage = `${teamColorsLinks[2]}`;
+                                $(soldier).css("backgroundImage", `${teamColorsLinks[2]}`);
                                 soldier.id = "B" + `${i}.${j}`; break;
                             case "w":
-                                soldier.style.backgroundImage = `${teamColorsLinks[3]}`;
+                                $(soldier).css("backgroundImage", `${teamColorsLinks[3]}`);
                                 soldier.id = "w" + `${i}.${j}`; break;
                             case "g":
-                                soldier.style.backgroundImage = `${teamColorsLinks[4]}`;
+                                $(soldier).css("backgroundImage", `${teamColorsLinks[4]}`);
                                 soldier.id = "g" + `${i}.${j}`; break;
                             case "b":
-                                soldier.style.backgroundImage = `${teamColorsLinks[5]}`;
+                                $(soldier).css("backgroundImage", `${teamColorsLinks[5]}`);
                                 soldier.id = "b" + `${i}.${j}`; break;
                         }
 
                         var x = document.getElementById(`${i}.${j}`);
                         $(x).append(soldier);
+                    }
+                }
+            }; break;
+
+        case 2:
+            console.log("in case 2");
+            for (i = 0; i < getBoardLength(); i++) {
+                for (j = 0; j < getBoardLength(); j++) {
+                    var coord = { i: i, j: j };
+
+                    if (getBoardCellValue(coord) != "x" &&
+                        getBoardCellValue(coord) != "e") {
+                        var soldier;
+                        var circle;
+
+                        switch (getBoardCellValue(coord)) {
+                            case "r":
+                                soldier = createSoldier();
+                                $(soldier).css("backgroundImage", `${teamColorsLinks[0]}`);
+                                soldier.id = "r" + `${i}.${j}`;
+                                circle = document.getElementById(`${i}.${j}`);
+                                $(circle).append(soldier);
+                                break;
+
+                            case "w":
+                                soldier = createSoldier();
+                                $(soldier).css("backgroundImage", `${teamColorsLinks[3]}`);
+                                soldier.id = "w" + `${i}.${j}`;
+                                circle = document.getElementById(`${i}.${j}`);
+                                $(circle).append(soldier); break;
+
+                        }
+
+
                     }
                 }
             }; break;
@@ -239,6 +266,19 @@ function getCoord(elementId) {
 
     return coord;
 
+}
+
+function promptEndTurn() {
+    var soldiers = $(".soldier");
+    var moved = false;
+    for (let soldier of soldiers) {
+        if (getObjectByElementId(soldier.id).moved) {
+            moved = true;
+        }
+    }
+    if (moved) {
+        $(".endTurnMessage").fadeIn("fast");
+    }
 }
 
 export {

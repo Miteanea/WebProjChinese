@@ -16,8 +16,6 @@ h1 {
     width: 700px;
     height: 500px;
     background-color: rgb(230, 46, 0, 0.9);
-    /* background-image : url("/imgs/textures/canvas3_bckgrnd.jpg"); */
-    /* background-size : cover; */
     border-radius: 15px;
 }
 
@@ -110,4 +108,63 @@ h1 {
     bottom: 50px;
     width: 50px;
     height: 50px;
+}
+
+.message{
+    width: 200px;
+    height: 75px;
+    margin-top: auto;
+    margin-bottom: auto;
+    border-radius: 10px;
+
+    font-size: 1.1em;
+    text-align: center;
+
+    position: absolute;
+    left: calc(( 100% - ( 200px / 2 ) + 100px) / 2 );
+    top:  calc(( 100% - 75px ) / 2 );
+    z-index: 2;
+}
+.endTurnMessage{
+    width: 200px;
+    height: 85px;
+    background-color: 	rgb(230, 46, 0);
+    border-radius: 10px;
+   
+    display: none;
+
+    position: absolute;
+    left: calc(( 100% - ( 200px / 2 ) + 100px) / 2 );
+    top:  calc(( 100% - 75px ) / 2 );
+    z-index: 2;
+}
+
+.messageContainer{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-content: center;
+}
+
+.yesNoContainer{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+.endTurn{
+    text-align: center;
+    background-color:	rgb(230, 46, 0);
+    border-radius: 5px;
+    width: auto;
+    height: 30px; 
+    padding: 5px 10px;
+    margin: 10px 10px 5px 10px;
+}
+.yesNo{
+    text-align: center;
+    background-color: 	rgb(189, 49, 14);
+    width: 50px;
+    height: 30px; 
+    padding: 5px 10px;
+    margin: 5px 10px;
 }

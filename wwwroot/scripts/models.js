@@ -1,6 +1,6 @@
 
 import { getCoord } from "./main.js"
-import { setBoardCellValue, getBoardLength, getBoardCellValue, isGameFinished} from "./board/board.js"
+import { setBoardCellValue, getBoardLength, getBoardCellValue, isGameFinished } from "./board/board.js"
 
 function Player(playerColor) {
     this.color = playerColor;
@@ -56,14 +56,14 @@ Player.prototype.makeMove = function () {
 }
 Player.prototype.createTargetCell = function (playerColor) {
     var targetCell;
-
     switch (playerColor) {
-        case "r": targetCell = { i: 16, j: 4, id: `${this.i}.${this.j}` };
-        case "y": targetCell = { i: 12, j: 0, id: `${this.i}.${this.j}` };
-        case "B": targetCell = { i: 4, j: 4, id: `${this.i}.${this.j}` };
-        case "w": targetCell = { i: 0, j: 12, id: `${this.i}.${this.j}` };
-        case "g": targetCell = { i: 4, j: 16, id: `${this.i}.${this.j}` };
-        case "b": targetCell = { i: 12, j: 12, id: `${this.i}.${this.j}` };
+
+        case "r": targetCell = { i: 16, j: 4, id: "16.4" };break;
+        case "y": targetCell = { i: 12, j: 0, id: "12.0" };break;
+        case "B": targetCell = { i: 4, j: 4, id: "4.4" }; break;
+        case "w": targetCell = { i: 0, j: 12, id: "0.12" }; break;
+        case "g": targetCell = { i: 4, j: 16, id: "4.16" }; break;
+        case "b": targetCell = { i: 12, j: 12, id: "12.12"}; break;
     }
     return targetCell;
 }
@@ -80,7 +80,7 @@ function Piece(color, i, j) {
     this.circle = $(`#${color}${i}\\.${j}`).parent();
     this.id = `${color}${this.i}.${this.j}`;
     this.moved = false;
-    this.move = {from:{ i:this.i, j:this.j}, to:{i:null, j:null} }
+    this.move = { from: { i: this.i, j: this.j }, to: { i: null, j: null } }
 }
 Piece.prototype.getPossibleMoves = function () {
     this.element.trigger("mouseover");
@@ -89,11 +89,11 @@ Piece.prototype.getPossibleMoves = function () {
     return possmov;
 };
 
-
-function Coord(i,j){
-    this.i=i;
+function Coord(i, j) {
+    this.i = i;
     this.j = j;
 }
+
 export {
     Player, Piece, Coord
 }

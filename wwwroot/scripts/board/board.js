@@ -1,5 +1,4 @@
 import { getWinConditions } from "../logic/win-conditions.js"
-import { goGame } from "../main.js";
 
 var board = {
     boardLayout: [
@@ -20,15 +19,13 @@ var board = {
     /* 13*/["x", "x", "x", "x", "w", "w", "w", "w", "x", "x", "x", "x", "x", "x", "x", "x", "x"],
     /* 14 */["x", "x", "x", "x", "w", "w", "w", "x", "x", "x", "x", "x", "x", "x", "x", "x", "x"],
     /* 15*/["x", "x", "x", "x", "w", "w", "x", "x", "x", "x", "x", "x", "x", "x", "x", "x", "x"],
-    /* 16 */["x", "x", "x", "x", "w", "x", "x", "x", "x", "x", "x", "x", "x", "x", "x", "x", "x"]
-    ],
-    
-    
+    /* 16 */["x", "x", "x", "x", "w", "x", "x", "x", "x", "x", "x", "x", "x", "x", "x", "x", "x"]],     
 
     setCellValue: function (coord, value) {
         this.boardLayout[coord.i][coord.j] = value;
     },
     getCellValue: function (coord) {
+
         return this.boardLayout[coord.i][coord.j];
     },
     gameFinished: function () {
@@ -45,10 +42,9 @@ var board = {
             if (count == goal) {
                 alert(`Player ${wc.color} Wins!!! `);
                 endGame = true;
-                goGame();
+                $("#restart").trigger("click");
             }
             count = 0;
-            console.log("keep going...")
         }
         return endGame;
     }
