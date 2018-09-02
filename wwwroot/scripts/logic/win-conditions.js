@@ -1,9 +1,9 @@
 import { Player } from "../models.js"
-import { addPlayer } from "../main.js"
+import { addPlayer, nrOfPlayers } from "../main.js"
 import { getBoardLength, getBoardCellValue} from "../board/board.js"
 
-var teamColors=["r", "w"];
-// var teamColors = ["r", "y", "B", "w", "g", "b"];
+var teamColors= ["r", "y", "B", "w", "g", "b"];
+      
 var winLayouts = [];
 var winConditions = [];
 
@@ -55,7 +55,7 @@ function getWinLayouts(playerColor) {
 
 function getWinConditions() {
       fillArray();
-      
+      console.log(teamColors);
       for (let color of teamColors) {
             getWinLayouts(color);
       }
@@ -73,6 +73,7 @@ function getWinConditions() {
             }
             winConditions.push(winCondition)
       }
+      console.log(winConditions)
       return winConditions;
 }
 

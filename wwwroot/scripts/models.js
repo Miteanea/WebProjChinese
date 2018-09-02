@@ -1,6 +1,6 @@
 
 import { getCoord } from "./main.js"
-import { setBoardCellValue, getBoardLength, getBoardCellValue, isGameFinished } from "./board/board.js"
+import { setBoardCellValue, getBoardLength, getBoardCellValue } from "./board/board.js"
 
 function Player(playerColor) {
     this.color = playerColor;

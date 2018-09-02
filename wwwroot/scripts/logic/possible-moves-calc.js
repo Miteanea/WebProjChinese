@@ -1,4 +1,4 @@
-import { setBoardCellValue, getBoardLength, getBoardCellValue, isGameFinished} from "../board/board.js"
+import { getBoardCellValue} from "../board/board.js"
 
 function addJumpCellsToMoves(movesColl, originCoord) {
 
