@@ -1,6 +1,6 @@
 import { setBoardCellValue, getBoardLength, getBoardCellValue } from "./board.js"
 import { highlightPossibleMoves, undoHighlightPossibleMoves } from "./highlighting.js"
-import { getObjectByElementId, nrOfPlayers } from "../main.js"
+import { getObjectByElementId, nrOfPlayers, getCoord } from "../main.js"
 import { Coord } from "../models.js"
 
 var spacing = 1;
@@ -19,7 +19,6 @@ function drawBoard(boardLayout) {
     $("#table").append(boardElement);
 
     drawAtXY(boardLayout);
-    console.log(boardLayout)
     placeSoldiers();
 }
 
@@ -88,7 +87,7 @@ function drawCircle(x, y, circleId) {
             var piece = getObjectByElementId(data);
             setBoardCellValue(coord, element.id.charAt(0));
             setBoardCellValue(piece.move.from, "e");
-            
+
             ev.target.appendChild(element);
 
             if (!piece.moved) {
@@ -169,103 +168,106 @@ function placeSoldiers() {
         case 6:
             for (i = 0; i < getBoardLength(); i++) {
                 for (j = 0; j < getBoardLength(); j++) {
-                    var coord = { i: i, j: j };
+                    var coord = new Coord(i, j);
 
-                    if (getBoardCellValue(coord) != "x" &&
-                        getBoardCellValue(coord) != "e") {
-                        var soldier = createSoldier();
+                    if (getBoardCellValue(coord) != "x" && getBoardCellValue(coord) != "e") {
+                        var soldier;
 
                         switch (getBoardCellValue(coord)) {
                             case "r":
-                                $(soldier).css("backgroundImage", `${teamColorsLinks[0]}`);
-                                soldier.id = "r" + `${i}.${j}`; break;
+                                soldier = createSoldier(); addSoldier(soldier, getBoardCellValue(coord), coord); break;
                             case "y":
-                                $(soldier).css("backgroundImage", `${teamColorsLinks[1]}`);
-                                soldier.id = "y" + `${i}.${j}`; break;
+                                soldier = createSoldier(); addSoldier(soldier, getBoardCellValue(coord), coord); break;
                             case "B":
-                                $(soldier).css("backgroundImage", `${teamColorsLinks[2]}`);
-                                soldier.id = "B" + `${i}.${j}`; break;
+                                soldier = createSoldier(); addSoldier(soldier, getBoardCellValue(coord), coord); break;
                             case "w":
-                                $(soldier).css("backgroundImage", `${teamColorsLinks[3]}`);
-                                soldier.id = "w" + `${i}.${j}`; break;
+                                soldier = createSoldier(); addSoldier(soldier, getBoardCellValue(coord), coord); break;
                             case "g":
-                                $(soldier).css("backgroundImage", `${teamColorsLinks[4]}`);
-                                soldier.id = "g" + `${i}.${j}`; break;
+                                soldier = createSoldier(); addSoldier(soldier, getBoardCellValue(coord), coord); break;
                             case "b":
-                                $(soldier).css("backgroundImage", `${teamColorsLinks[5]}`);
-                                soldier.id = "b" + `${i}.${j}`; break;
+                                soldier = createSoldier(); addSoldier(soldier, getBoardCellValue(coord), coord); break;
                         }
+                    }
+                }
+            }; break;
 
-                        var x = document.getElementById(`${i}.${j}`);
-                        $(x).append(soldier);
+        case 3:
+            for (i = 0; i < getBoardLength(); i++) {
+                for (j = 0; j < getBoardLength(); j++) {
+                    var coord = new Coord(i, j);
+
+                    if (getBoardCellValue(coord) != "x" && getBoardCellValue(coord) != "e") {
+                        var soldier;
+
+                        switch (getBoardCellValue(coord)) {
+                            case "r":
+                                soldier = createSoldier(); addSoldier(soldier, getBoardCellValue(coord), coord); break;
+                            case "B":
+                                soldier = createSoldier(); addSoldier(soldier, getBoardCellValue(coord), coord); break;
+                            case "g":
+                                soldier = createSoldier(); addSoldier(soldier, getBoardCellValue(coord), coord); break;
+                        }
                     }
                 }
             }; break;
 
         case 2:
-            console.log("in case 2");
             for (i = 0; i < getBoardLength(); i++) {
                 for (j = 0; j < getBoardLength(); j++) {
-                    var coord = { i: i, j: j };
+                    var coord = new Coord(i, j);
 
-                    if (getBoardCellValue(coord) != "x" &&
-                        getBoardCellValue(coord) != "e") {
+                    if (getBoardCellValue(coord) != "x" && getBoardCellValue(coord) != "e") {
                         var soldier;
-                        var circle;
-
                         switch (getBoardCellValue(coord)) {
                             case "r":
-                                soldier = createSoldier();
-                                $(soldier).css("backgroundImage", `${teamColorsLinks[0]}`);
-                                soldier.id = "r" + `${i}.${j}`;
-                                circle = document.getElementById(`${i}.${j}`);
-                                $(circle).append(soldier);
-                                break;
-
+                                soldier = createSoldier(); addSoldier(soldier, getBoardCellValue(coord), coord); break;
                             case "w":
-                                soldier = createSoldier();
-                                $(soldier).css("backgroundImage", `${teamColorsLinks[3]}`);
-                                soldier.id = "w" + `${i}.${j}`;
-                                circle = document.getElementById(`${i}.${j}`);
-                                $(circle).append(soldier); break;
-
+                                soldier = createSoldier(); addSoldier(soldier, getBoardCellValue(coord), coord); break;
                         }
+                    }
+                }
+            }; break;
 
+        case 4:
+            for (i = 0; i < getBoardLength(); i++) {
+                for (j = 0; j < getBoardLength(); j++) {
+                    var coord = new Coord(i,j);
 
+                    if (getBoardCellValue(coord) != "x" && getBoardCellValue(coord) != "e") {
+                        var soldier;
+
+                        switch (getBoardCellValue(coord)) {
+
+                            case "y":
+                                soldier = createSoldier(); addSoldier(soldier, getBoardCellValue(coord), coord); break;
+                            case "B":
+                                soldier = createSoldier(); addSoldier(soldier, getBoardCellValue(coord), coord); break;
+                            case "g":
+                                soldier = createSoldier(); addSoldier(soldier, getBoardCellValue(coord), coord); break;
+                            case "b":
+                                soldier = createSoldier(); addSoldier(soldier, getBoardCellValue(coord), coord); break;
+                        }
                     }
                 }
             }; break;
     }
 }
 
-function getCoord(elementId) {
-    var coord = { i: 0, j: 0 };
-
-    var istr = "";
-    var jstr = "";
-
-    var str = elementId;
-
-    while (str.length > 0) {
-        if (str.charAt(0) != ".") {
-            istr += str.charAt(0);
-            str = str.slice(1);
-        }
-        else {
-            str = str.slice(1);
-            while (str.length > 0) {
-                jstr += str.charAt(0);
-                str = str.slice(1);
-            }
-            break;
-        }
+function addSoldier(soldier, col, coord) {
+    let c;
+    switch (col) {
+        case "r": c = teamColorsLinks[0]; break;
+        case "y": c = teamColorsLinks[1]; break;
+        case "B": c = teamColorsLinks[2]; break;
+        case "w": c = teamColorsLinks[3]; break;
+        case "g": c = teamColorsLinks[4]; break;
+        case "b": c = teamColorsLinks[5]; break;
     }
 
-    coord.i = parseInt(istr);
-    coord.j = parseInt(jstr);
-
-    return coord;
-
+    $(soldier).css("backgroundImage", `${c}`);
+    soldier.id = col + `${coord.i}.${coord.j}`;
+    var circle = document.getElementById(`${coord.i}.${coord.j}`);
+    $(circle).append(soldier);
 }
 
 function promptEndTurn() {

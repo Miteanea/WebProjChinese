@@ -8,9 +8,6 @@ var endGame = false;
 function startGame(playerCollection) {
     players = playerCollection;
     currentPlayer = players[0];
-    console.log("inside startGame")
-    console.log(players);
-    console.log(currentPlayer);
 
     turn();
 }

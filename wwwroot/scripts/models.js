@@ -11,7 +11,7 @@ Player.prototype.getPieces = function (color) {
     var collection = [];
     for (var i = 0; i < getBoardLength(); i++) {
         for (var j = 0; j < getBoardLength(); j++) {
-            var coord = { i: i, j: j };
+            var coord = new Coord(i,j);
             if (getBoardCellValue(coord) == color) {
                 var soldier = new Piece(color, i, j);
                 collection.push(soldier);
@@ -21,38 +21,6 @@ Player.prototype.getPieces = function (color) {
     }
 }
 Player.prototype.makeMove = function () {
-
-    var piecesToMove = []
-
-    for (let piece of this.pieceCollection) {
-        var possmov = piece.getPossibleMoves();
-        if (possmov != null) {
-            piecesToMove.push(piece);
-        }
-    }
-
-    var selectedPiece = (piecesToMove[Math.floor(Math.random() * piecesToMove.length)]);
-    selectedPiece.element.trigger("mouseover");
-    console.log(selectedPiece)
-
-    var paths = selectedPiece.getPaths();
-    console.log("Paths:");
-    console.log(paths)
-    var selectedPath = (paths[Math.floor(Math.random() * paths.length)]);
-    console.log("selectedPath: ")
-    console.log(selectedPath);
-
-    //
-    $(this).addClass("soldierSelected");
-    var coord = getCoord(selectedPiece.circle[0].id);
-    setBoardCellValue(coord, "e");
-    var element = document.getElementById(selectedPiece.element[0].id);
-    coord = getCoord(`${selectedPath[0].i}.${selectedPath[0].j}`);
-    setBoardCellValue(coord, element.id.charAt(0));
-    document.getElementById(`${selectedPath[0].i}.${selectedPath[0].j}`).appendChild(element);
-    $("*").removeClass("circleHighlighted");
-    $("*").removeClass("soldierSelected")
-
 }
 Player.prototype.createTargetCell = function (playerColor) {
     var targetCell;

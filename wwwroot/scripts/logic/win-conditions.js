@@ -1,5 +1,5 @@
-import { Player } from "../models.js"
-import { addPlayer, nrOfPlayers } from "../main.js"
+import { Player, Coord } from "../models.js"
+import { addPlayer } from "../main.js"
 import { getBoardLength, getBoardCellValue} from "../board/board.js"
 
 var teamColors= ["r", "y", "B", "w", "g", "b"];
@@ -20,20 +20,29 @@ function calcTargetCoord(i, j) {
 
       var iaxis = 8;
       var jaxis = 8;
+      var a, b;
 
       var coord;
 
       if (i <= iaxis && j >= jaxis) {
-            coord = { i: iaxis + Math.abs(iaxis - i), j: jaxis - Math.abs(jaxis - j) };
+            a = iaxis + Math.abs(iaxis - i);
+            b = jaxis - Math.abs(jaxis - j);
+            coord = new Coord(a, b);
       }
       if (i >= iaxis && j >= jaxis) {
-            coord = { i: iaxis - Math.abs(iaxis - i), j: jaxis - Math.abs(jaxis - j) };
+            a = iaxis - Math.abs(iaxis - i);
+            b = jaxis - Math.abs(jaxis - j)
+            coord = new Coord(a,b);
       }
       if (i >= iaxis && j <= jaxis) {
-            coord = { i: iaxis - Math.abs(iaxis - i), j: jaxis + Math.abs(jaxis - j) };
+            a = iaxis - Math.abs(iaxis - i);
+            b = jaxis + Math.abs(jaxis - j);
+            coord = new Coord (a , b );
       }
       if (i <= iaxis && j <= jaxis) {
-            coord = { i: iaxis + Math.abs(iaxis - i), j: jaxis + Math.abs(jaxis - j) };
+            a =  iaxis + Math.abs(iaxis - i);
+            b = jaxis + Math.abs(jaxis - j);
+            coord = new Coord(a,b);
       }
       return coord;
 }
@@ -44,7 +53,7 @@ function getWinLayouts(playerColor) {
             for (var j = 0; j < getBoardLength(); j++) {
 
                   var targetCoord = calcTargetCoord(i, j);
-                  var coord = { i: i, j: j };
+                  var coord = new Coord(i,j);
 
                   if (playerColor == getBoardCellValue(coord) && targetCoord != null) {
                         winLayouts[targetCoord.i][targetCoord.j] = playerColor;
@@ -55,7 +64,7 @@ function getWinLayouts(playerColor) {
 
 function getWinConditions() {
       fillArray();
-      console.log(teamColors);
+
       for (let color of teamColors) {
             getWinLayouts(color);
       }
@@ -73,7 +82,6 @@ function getWinConditions() {
             }
             winConditions.push(winCondition)
       }
-      console.log(winConditions)
       return winConditions;
 }
 
@@ -83,13 +91,12 @@ function createPlayers(nrOfPlayers) {
 
       switch (nrOfPlayers) {
             case 2: colors = ["r", "w"]; break;
-            case 3: colors = ["r", "b", "g"]; break;
+            case 3: colors = ["r", "B", "g"]; break;
             case 4: colors = ["b", "y", "g", "B"]; break;
             case 6: colors = ["r", "y", "B", "w", "g", "b"]; break;
       }
 
       for (let col of colors) {
-            console.log(col);
             var pl = new Player(col);
             addPlayer(pl);
       }
