@@ -70,12 +70,12 @@ function thisTurn(playerColor) {
         let playerc = null;
 
         switch (playerColor) {
-            case "r": player = "Red"; playerc = "red"; break;
-            case "y": player = "Yellow"; playerc = "yellow"; break;
-            case "B": player = "Blue"; playerc = "blue";break;
-            case "w": player = "White"; playerc = "white";break;
-            case "b": player = "Black"; playerc = "black";break;
-            case "g": player = "Green"; playerc = "green";break;
+            case "r": player = "Red"; playerc = "rgb(155, 6, 6)"; break;
+            case "y": player = "Yellow"; playerc = "rgb(252, 248, 30)"; break;
+            case "B": player = "Blue"; playerc = "rgb(6, 63, 155)";break;
+            case "w": player = "White"; playerc = "rgb(252, 252, 237)";break;
+            case "b": player = "Black"; playerc = "rgb(61, 61, 54)";break;
+            case "g": player = "Green"; playerc = "rgb(47, 147, 47)";break;
         }
 
         $(".message").html(`Player <strong>${player}</strong> it is your turn! </br> Click Here To Continue!`);
