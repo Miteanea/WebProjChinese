@@ -42,10 +42,7 @@ class Player {
 class Piece {
     constructor(color, i, j) {
         this.color = color;
-        this.i = i;
-        this.j = j;
-        this.element = $(`#${color}${this.i}\\.${this.j}`);
-        this.circle = $(`#${color}${i}\\.${j}`).parent();
+        this.i = i;  this.j = j;
         this.id = `${color}${this.i}.${this.j}`;
         this.moved = false;
         this.move = { from: new Coord(this.i, this.j), to: new Coord(null, null) }
