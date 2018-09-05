@@ -2,37 +2,18 @@ var nrOfPlayers;
 var players = [];
 function addPlayer(player) {
     players.push(player);
-    console.log(players);
 }
 
 function getObjectByElementId(id) {
     for (let player of players) {
         for (let piece of player.pieceCollection) {
             if (piece.id == id) {
-                
                 return piece;
             }
         }
     }
 }
-
-var possibleMoves = [];
-
-function setPossibleMovesMain(possibleMovesCollection) {
-    possibleMoves = possibleMovesCollection;
-}
-function getPossibleMovesMain() {
-    return possibleMoves;
-}
-
-import { drawBoard } from "./board/board-creation.js";
-import { createPlayers } from "./logic/win-conditions.js";
-import { startGame } from "./logic/turn-mechanics.js"
-import { getBoardLayout} from "./board/board.js"
-
-
 function getCoord(elementId) {
-    var coord = { i: 0, j: 0 };
 
     var istr = "";
     var jstr = "";
@@ -54,13 +35,54 @@ function getCoord(elementId) {
         }
     }
 
-    coord.i = parseInt(istr);
-    coord.j = parseInt(jstr);
+    var coord = new Coord(parseInt(istr), parseInt(jstr));
 
     return coord;
 
 }
 
+var possibleMoves = [];
+
+function setPossibleMovesMain(possibleMovesCollection) {
+    possibleMoves = possibleMovesCollection;
+}
+function getPossibleMovesMain() {
+    return possibleMoves;
+}
+
+import { drawBoard } from "./board/board-creation.js";
+import { createPlayers } from "./logic/win-conditions.js";
+import { startGame } from "./logic/turn-mechanics.js"
+import { getBoardLayout} from "./board/board.js"
+import { Coord } from "./models.js";
+
+function assignHandlers(){
+    $( "#2pl" ).on("click", function() {
+        $( "#curtain" ).fadeOut( "slow");
+        $("h1").hide("slow");        
+        nrOfPlayers = 2;
+        goGame();
+    }); 
+    $( "#3pl" ).on("click", function() {
+        $( "#curtain" ).fadeOut( "slow");
+        $("h1").hide("slow");        
+        nrOfPlayers = 3;
+        goGame();
+    }); 
+    $( "#4pl" ).on("click", function() {
+        $( "#curtain" ).fadeOut( "slow");
+        $("h1").hide("slow");        
+        nrOfPlayers = 4;
+        goGame();
+    }); 
+    $( "#6pl" ).on("click", function() {
+        $( "#curtain" ).fadeOut( "slow");
+        $("h1").hide("slow");        
+        nrOfPlayers = 6;
+        goGame();
+    }); 
+
+}
 function goGame() {
 
     var boardLayout = getBoardLayout();
@@ -76,18 +98,7 @@ function goGame() {
 }
 
 $(window).on("load",function () {
-    $( "#2pl" ).on("click", function() {
-        $( "#curtain" ).fadeOut( "slow");
-        $("h1").hide("slow");        
-        nrOfPlayers = 2;
-        goGame();
-    }); 
-    $( "#6pl" ).on("click", function() {
-        $( "#curtain" ).fadeOut( "slow");
-        $("h1").hide("slow");        
-        nrOfPlayers = 6;
-        goGame();
-    }); 
+    assignHandlers();
 });
 
 export {
