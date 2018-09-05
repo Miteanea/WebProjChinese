@@ -11,19 +11,18 @@ class Player {
         var collection = [];
         for (var i = 0; i < getBoardLength(); i++) {
             for (var j = 0; j < getBoardLength(); j++) {
-                var coord = { i: i, j: j };
-                if (getBoardCellValue(coord) == color) {
+                if (getBoardCellValue(new Coord(i,j)) == color) {
                     var soldier = new Piece(color, i, j);
                     collection.push(soldier);
-                    if (collection.length == 10) { return collection; }
+                    if (collection.length == 10) { 
+                        return collection; }
                 }
             }
         }
     }
-    createTargetCell(playerColor) {
+    createTargetCell(color) {
         var targetCell;
-        switch (playerColor) {
-
+        switch (color) {
             case "r": targetCell = { i: 16, j: 4, id: "16.4" }; break;
             case "y": targetCell = { i: 12, j: 0, id: "12.0" }; break;
             case "B": targetCell = { i: 4, j: 4, id: "4.4" }; break;
@@ -33,8 +32,7 @@ class Player {
         }
         return targetCell;
     }
-    toggleCurrentPlayer(playerColor) {
-        var color = playerColor;
+    toggleCurrentPlayer(color) {
         $(`.soldier[id^='${color}']`).toggleClass("soldierCurrent");
     }
 }
