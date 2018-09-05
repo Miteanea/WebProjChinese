@@ -78,7 +78,8 @@ function thisTurn(playerColor) {
             case "g": player = "Green"; playerc = "rgb(47, 147, 47)";break;
         }
 
-        $(".message").html(`Player <strong>${player}</strong> it is your turn! </br> Click Here To Continue!`);
+        $(".message").find("p").css("margin", "5px")
+        .html(`Player <strong>${player}</strong> it is your turn! </br> Click Here To Continue!`);
         $(".message").css("background-color", `${playerc}`);
 
         if(playerc == "black"){

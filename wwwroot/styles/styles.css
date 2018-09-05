@@ -11,8 +11,8 @@ h1 {
 }
 
 #table{
-    margin-left: calc( (100% - 700px)/2);
-    margin-right: calc( (100% - 700px)/2);
+    margin-left: calc( ( 100% - 700px ) / 2);
+    margin-right: calc( ( 100% - 700px) / 2);
     position: absolute;
     top: 100px;
     width: 700px;
@@ -58,7 +58,6 @@ h1 {
 }
 
 .circle{
-    /* radius = 12 */
     height : calc((2 * 12 - 3) *1px);
     width: calc((2*12 - 2)*1px);
     border-radius : 50%;
@@ -118,7 +117,7 @@ h1 {
 
 .message{
     width: 200px;
-    height: 75px;
+    height: auto;
     margin-top: auto;
     margin-bottom: auto;
     border-radius: 10px;
@@ -126,7 +125,7 @@ h1 {
 
     font-size: 1.1em;
     text-align: center;
-    padding-top: 3px;
+    padding: 3px;
 
     position: absolute;
     left: calc(( 100% - ( 200px / 2 ) + 100px) / 2 );
