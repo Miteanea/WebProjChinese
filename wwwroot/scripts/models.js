@@ -1,6 +1,4 @@
-
-import { getCoord } from "./main.js"
-import { setBoardCellValue, getBoardLength, getBoardCellValue } from "./board/board.js"
+import { getBoardLength, getBoardCellValue } from "./board/board.js"
 
 class Player {
     constructor(playerColor) {
@@ -54,9 +52,11 @@ class Piece {
     }
 }
 
-function Coord(i, j) {
-    this.i = i;
-    this.j = j;
+class Coord {
+    constructor(i, j) {
+        this.i = i;
+        this.j = j;
+    }
 }
 
 export {
