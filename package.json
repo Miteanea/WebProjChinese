@@ -1,0 +1,19 @@
+{
+  "name": "webprojchinese",
+  "version": "1.0.0",
+  "description": "ChineseCheckers",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://miteanea:meteor20@github.com/Miteanea/WebProjChinese.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Miteanea/WebProjChinese/issues"
+  },
+  "homepage": "https://github.com/Miteanea/WebProjChinese#readme"
+}

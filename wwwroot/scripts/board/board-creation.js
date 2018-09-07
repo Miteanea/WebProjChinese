@@ -3,17 +3,15 @@ import { highlightPossibleMoves, undoHighlightPossibleMoves } from "./highlighti
 import { getObjectByElementId, nrOfPlayers, getCoord } from "../main.js"
 import { Coord } from "../models.js"
 
-var spacing = 1;
-var circleId = "";
-var radius = 12;
-
+export {drawBoard }
 
 var teamColorsLinks = ["url(\"/imgs/soldiers/Red.png\")", "url(\"/imgs//soldiers/Yellow.png\")",
     "url(\"/imgs//soldiers/Blue.png\")", "url(\"/imgs//soldiers/White.png\")",
     "url(\"/imgs//soldiers/Green.png\")", "url(\"/imgs//soldiers/Black.png\")"];
 
 
-function drawBoard(boardLayout) {
+function drawBoard(boardLayout)
+{
     var boardElement = document.createElement("div");
     $(boardElement).addClass("board");
     $("#table").append(boardElement);
@@ -22,35 +20,41 @@ function drawBoard(boardLayout) {
     placeSoldiers();
 }
 
-function drawAtXY(boardLayout) {
-
+function drawAtXY(boardLayout)
+{
     var middle = $("#table").width() / 2;
     var startY = ($("#table").height() - (boardLayout.length * (radius * 2 + 2 * spacing))) / 2 + radius + spacing;
     var cellIds = [];
 
-    for (var i = 0; i < boardLayout.length; i++) {
-
+    for (var i = 0; i < boardLayout.length; i++)
+    {
         cellIds = [];
-
-        for (var k = 0; k < boardLayout[i].length; k++) {
-            if (boardLayout[i][k] != "x") {
+        for (var k = 0; k < boardLayout[i].length; k++)
+        {
+            if (boardLayout[i][k] != "x")
+            {
                 var id = `${i}.${k}`;
                 cellIds.push(id);
             }
         }
 
-        for (var j = 0; j < cellIds.length; j++) {
-            if (cellIds.length == 1) {
+        for (var j = 0; j < cellIds.length; j++) 
+        {
+            if (cellIds.length == 1)
+            {
                 startX = middle;
             }
-            else if (cellIds.length % 2 == 1) {
+            else if (cellIds.length % 2 == 1)
+            {
                 var startX = middle - (Math.floor(cellIds.length / 2)) * (2 * radius + 2 * spacing);
             }
-            else {
+            else
+            {
                 var startX = middle - cellIds.length / 2 * (2 * radius + 2 * spacing) + radius + spacing;
             }
 
-            for (var j = 0; j < cellIds.length; j++) {
+            for (var j = 0; j < cellIds.length; j++)
+            {
                 circleId = cellIds[j];
                 drawCircle(startX, startY, circleId);
                 startX += (2 * radius + 2 * spacing);
@@ -60,8 +64,8 @@ function drawAtXY(boardLayout) {
     }
 }
 
-function drawCircle(x, y, circleId) {
-
+function drawCircle(x, y, circleId)
+{
     var circle = document.createElement("div");
 
     $(circle).addClass("circle");
@@ -71,14 +75,18 @@ function drawCircle(x, y, circleId) {
     $(circle).attr("draggable", "false");
     $(circle).attr("id", `${circleId}`);
 
-    circle.ondragover = function (ev) {
-        if (circle.childElementCount == 0) {
+    circle.ondragover = function (ev)
+    {
+        if (circle.childElementCount == 0)
+        {
             ev.preventDefault();
         }
     };
 
-    circle.ondrop = function (ev) {
-        if (circle.childElementCount == 0 && $(circle).hasClass("circleHighlighted")) {
+    circle.ondrop = function (ev)
+    {
+        if (circle.childElementCount == 0 && $(circle).hasClass("circleHighlighted"))
+        {
             event.preventDefault();
             var data = ev.dataTransfer.getData("text");
             var element = document.getElementById(data);
@@ -90,12 +98,14 @@ function drawCircle(x, y, circleId) {
 
             ev.target.appendChild(element);
 
-            if (!piece.moved) {
+            if (!piece.moved)
+            {
                 piece.moved = true;
                 piece.move.to.i = coord.i;
                 piece.move.to.j = coord.j;
             }
-            else {
+            else
+            {
                 piece.moved = false;
                 piece.move.to.i = null;
                 piece.move.to.j = null;
@@ -108,72 +118,72 @@ function drawCircle(x, y, circleId) {
     $("#overlay").append(circle);
 }
 
-function createSoldier() {
+function createSoldier()
+{
     var soldier = document.createElement("div");
 
     $(soldier).addClass("soldier");
+    $(soldier).on("mouseover", function ()
+    {
+        if ($(soldier).hasClass("soldierCurrent"))
+        {
+            var soldierObject = getObjectByElementId(soldier.id);           
 
-    $(soldier).on("mouseover", function () {
-        if ($(soldier).hasClass("soldierCurrent")) {
-
-            var soldiers = $(".soldier");
-            var pieceMoved = false;
-
-            for (let soldier of soldiers) {
-                if (getObjectByElementId(soldier.id).moved) {
-                    pieceMoved = true;
-                }
-            }
-
-            if (pieceMoved && !getObjectByElementId(soldier.id).moved) {
+            if (hasAnyPieceMoved() && !soldierObject.moved)
+            {
                 $(soldier).attr("draggable", "false");
             }
-            else if (pieceMoved && getObjectByElementId(soldier.id).moved) {
+            else if (hasAnyPieceMoved() && soldierObject.moved)
+            {
                 $(soldier).attr("draggable", "true");
                 $(soldier).addClass("soldierSelected");
                 let move = getObjectByElementId(soldier.id).move;
                 let originCoord = new Coord(move.from.i, move.from.j);
                 $(`#${originCoord.i}\\.${originCoord.j}`).addClass("circleHighlighted");
             }
-            else if (!pieceMoved) {
+            else if (!hasAnyPieceMoved())
+            {
                 $(soldier).attr("draggable", "true");
                 $(soldier).addClass("soldierSelected");
                 highlightPossibleMoves(soldier.parentElement.id);
             }
-
         }
     });
 
-    $(soldier).on("mouseleave",
-        function () {
-            if ($(soldier).hasClass("soldierCurrent")) {
-                $(soldier).attr("draggable", "false");
-                $(soldier).removeClass("soldierSelected");
-                undoHighlightPossibleMoves();
-            }
-        });
+    $(soldier).on("mouseleave", function ()
+    {
+        if ($(soldier).hasClass("soldierCurrent"))
+        {
+            $(soldier).attr("draggable", "false");
+            $(soldier).removeClass("soldierSelected");
+            undoHighlightPossibleMoves();
+        }
+    });
 
-    soldier.ondragstart = function drag(ev) {
+    soldier.ondragstart = function drag(ev)
+    {
         ev.dataTransfer.setData("text", ev.target.id);
         $(soldier).addClass("soldierSelected");
     }
     return soldier;
 }
 
-function placeSoldiers() {
+function placeSoldiers()
+{
     var i, j;
-
-    switch (nrOfPlayers) {
-
+    switch (nrOfPlayers)
+    {
         case 6:
-            for (i = 0; i < getBoardLength(); i++) {
-                for (j = 0; j < getBoardLength(); j++) {
+            for (i = 0; i < getBoardLength(); i++)
+            {
+                for (j = 0; j < getBoardLength(); j++)
+                {
                     var coord = new Coord(i, j);
-
-                    if (getBoardCellValue(coord) != "x" && getBoardCellValue(coord) != "e") {
+                    if (getBoardCellValue(coord) != "x" && getBoardCellValue(coord) != "e")
+                    {
                         var soldier;
-
-                        switch (getBoardCellValue(coord)) {
+                        switch (getBoardCellValue(coord))
+                        {
                             case "r":
                                 soldier = createSoldier(); addSoldier(soldier, getBoardCellValue(coord), coord); break;
                             case "y":
@@ -192,14 +202,16 @@ function placeSoldiers() {
             }; break;
 
         case 3:
-            for (i = 0; i < getBoardLength(); i++) {
-                for (j = 0; j < getBoardLength(); j++) {
-                    var coord = new Coord(i, j);
-
-                    if (getBoardCellValue(coord) != "x" && getBoardCellValue(coord) != "e") {
+            for (i = 0; i < getBoardLength(); i++)
+            {
+                for (j = 0; j < getBoardLength(); j++)
+                {
+                    coord = new Coord(i, j);
+                    if (getBoardCellValue(coord) != "x" && getBoardCellValue(coord) != "e")
+                    {
                         var soldier;
-
-                        switch (getBoardCellValue(coord)) {
+                        switch (getBoardCellValue(coord))
+                        {
                             case "r":
                                 soldier = createSoldier(); addSoldier(soldier, getBoardCellValue(coord), coord); break;
                             case "B":
@@ -212,13 +224,16 @@ function placeSoldiers() {
             }; break;
 
         case 2:
-            for (i = 0; i < getBoardLength(); i++) {
-                for (j = 0; j < getBoardLength(); j++) {
+            for (i = 0; i < getBoardLength(); i++)
+            {
+                for (j = 0; j < getBoardLength(); j++)
+                {
                     var coord = new Coord(i, j);
-
-                    if (getBoardCellValue(coord) != "x" && getBoardCellValue(coord) != "e") {
+                    if (getBoardCellValue(coord) != "x" && getBoardCellValue(coord) != "e")
+                    {
                         var soldier;
-                        switch (getBoardCellValue(coord)) {
+                        switch (getBoardCellValue(coord))
+                        {
                             case "r":
                                 soldier = createSoldier(); addSoldier(soldier, getBoardCellValue(coord), coord); break;
                             case "w":
@@ -229,15 +244,16 @@ function placeSoldiers() {
             }; break;
 
         case 4:
-            for (i = 0; i < getBoardLength(); i++) {
-                for (j = 0; j < getBoardLength(); j++) {
-                    var coord = new Coord(i,j);
-
-                    if (getBoardCellValue(coord) != "x" && getBoardCellValue(coord) != "e") {
+            for (i = 0; i < getBoardLength(); i++)
+            {
+                for (j = 0; j < getBoardLength(); j++)
+                {
+                    var coord = new Coord(i, j);
+                    if (getBoardCellValue(coord) != "x" && getBoardCellValue(coord) != "e")
+                    {
                         var soldier;
-
-                        switch (getBoardCellValue(coord)) {
-
+                        switch (getBoardCellValue(coord))
+                        {
                             case "y":
                                 soldier = createSoldier(); addSoldier(soldier, getBoardCellValue(coord), coord); break;
                             case "B":
@@ -253,9 +269,11 @@ function placeSoldiers() {
     }
 }
 
-function addSoldier(soldier, col, coord) {
+function addSoldier(soldier, col, coord)
+{
     let c;
-    switch (col) {
+    switch (col)
+    {
         case "r": c = teamColorsLinks[0]; break;
         case "y": c = teamColorsLinks[1]; break;
         case "B": c = teamColorsLinks[2]; break;
@@ -266,25 +284,38 @@ function addSoldier(soldier, col, coord) {
 
     $(soldier).css("backgroundImage", `${c}`);
     soldier.id = col + `${coord.i}.${coord.j}`;
-    var circle = document.getElementById(`${coord.i}.${coord.j}`);
-    $(circle).append(soldier);
+    var cell = document.getElementById(`${coord.i}.${coord.j}`);
+    $(cell).append(soldier);
 }
 
-function promptEndTurn() {
-    var soldiers = $(".soldier");
-    var moved = false;
-    for (let soldier of soldiers) {
-        if (getObjectByElementId(soldier.id).moved) {
-            moved = true;
-        }
-    }
-    if (moved) {
+function promptEndTurn()
+{    
+    if (hasAnyPieceMoved())
+    {
         $(".endTurnMessage").fadeIn("fast");
     }
 }
 
-export {
-    drawBoard, drawAtXY, placeSoldiers
-};
+function hasAnyPieceMoved()
+{
+    var soldiers = $(".soldier");
+    var pieceMoved = false;
+    for (let soldier of soldiers)
+    {
+        var sold = getObjectByElementId(soldier.id);
+        if (sold.moved)
+        {
+            pieceMoved = true;
+        }
+    }
+    return pieceMoved;
+}
+
+
+var spacing = 1;
+var circleId = "";
+var radius = 12;
+
+
 
 
