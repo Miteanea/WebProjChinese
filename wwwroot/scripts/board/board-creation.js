@@ -311,7 +311,6 @@ function hasAnyPieceMoved()
     return pieceMoved;
 }
 
-
 var spacing = 1;
 var circleId = "";
 var radius = 12;

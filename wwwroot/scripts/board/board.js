@@ -1,6 +1,8 @@
 import { getWinConditions } from "../logic/win-conditions.js"
 import {Board} from "../models.js"
 
+export { setBoardCellValue, getBoardLength, getBoardCellValue, isGameFinished, getBoardLayout }
+
 function getBoardLayout() {
     return board.boardLayout;
 }
@@ -17,9 +19,5 @@ function isGameFinished() {
     return board.gameFinished();
 }
 
-
 var board = new Board();
 board.winConditions = getWinConditions();
-
-
-export { setBoardCellValue, getBoardLength, getBoardCellValue, isGameFinished, getBoardLayout }
