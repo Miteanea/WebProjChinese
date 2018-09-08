@@ -1,5 +1,13 @@
-var nrOfPlayers;
-var players = [];
+import { drawBoard } from "./board/board-creation.js";
+import { createPlayers } from "./logic/win-conditions.js";
+import { startGame } from "./logic/turn-mechanics.js"
+import { getBoardLayout } from "./board/board.js"
+
+export
+{
+    setPossibleMovesMain, addPlayer, getPossibleMovesMain, goGame, getObjectByElementId, nrOfPlayers
+}
+
 function addPlayer(player)
 {
     players.push(player);
@@ -19,23 +27,15 @@ function getObjectByElementId(id)
     }
 }
 
-
-var possibleMoves = [];
-
 function setPossibleMovesMain(possibleMovesCollection)
 {
     possibleMoves = possibleMovesCollection;
 }
+
 function getPossibleMovesMain()
 {
     return possibleMoves;
 }
-
-import { drawBoard } from "./board/board-creation.js";
-import { createPlayers } from "./logic/win-conditions.js";
-import { startGame } from "./logic/turn-mechanics.js"
-import { getBoardLayout } from "./board/board.js"
-import { Coord } from "./models.js";
 
 function assignHandlers()
 {
@@ -69,9 +69,9 @@ function assignHandlers()
     });
 
 }
+
 function goGame()
 {
-
     var boardLayout = getBoardLayout();
 
     drawBoard(boardLayout);
@@ -85,13 +85,12 @@ function goGame()
     startGame(players);
 }
 
+var nrOfPlayers;
+var players = [];
+var possibleMoves = [];
+
 $(window).on("load", function ()
 {
     assignHandlers();
 });
-
-export
-{
-    setPossibleMovesMain, addPlayer, getPossibleMovesMain, goGame, getObjectByElementId, nrOfPlayers
-}
 

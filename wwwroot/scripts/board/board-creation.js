@@ -5,11 +5,6 @@ import { Coord } from "../models.js"
 
 export {drawBoard }
 
-var teamColorsLinks = ["url(\"/imgs/soldiers/Red.png\")", "url(\"/imgs//soldiers/Yellow.png\")",
-    "url(\"/imgs//soldiers/Blue.png\")", "url(\"/imgs//soldiers/White.png\")",
-    "url(\"/imgs//soldiers/Green.png\")", "url(\"/imgs//soldiers/Black.png\")"];
-
-
 function drawBoard(boardLayout)
 {
     var boardElement = document.createElement("div");
@@ -93,7 +88,7 @@ function drawCircle(x, y, circleId)
             var coord = getCoord(circle.id);
 
             var piece = getObjectByElementId(data);
-            
+
             setBoardCellValue(coord, piece.id);
             setBoardCellValue(piece.move.tempOrigin, "e");
 
@@ -315,6 +310,9 @@ var spacing = 1;
 var circleId = "";
 var radius = 12;
 
+var teamColorsLinks = ["url(\"/imgs/soldiers/Red.png\")", "url(\"/imgs//soldiers/Yellow.png\")",
+    "url(\"/imgs//soldiers/Blue.png\")", "url(\"/imgs//soldiers/White.png\")",
+    "url(\"/imgs//soldiers/Green.png\")", "url(\"/imgs//soldiers/Black.png\")"];
 
 
 

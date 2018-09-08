@@ -1,6 +1,11 @@
 import { getBoardCellValue } from "../board/board.js"
 import { Coord } from "../models.js";
 
+export
+{
+    getPossibleMoves, checkForUniqueness
+}
+
 function addJumpCellsToMoves(movesColl, originCoord)
 {
     var adjacentCells = getAdjacentCells(originCoord);
@@ -29,9 +34,9 @@ function addJumpCellsToMoves(movesColl, originCoord)
     }
     return movesColl;
 }
+
 function getAdjacentCells(coord)
 {
-
     var adjacentCells = [];
     var coords = [];
 
@@ -61,6 +66,7 @@ function getAdjacentCells(coord)
     }
     return adjacentCells;
 }
+
 function getPossibleMoves(coord)
 {
     var moves = [];
@@ -99,6 +105,7 @@ function checkForUniqueness(collection, target)
     }
     return unique;
 }
+
 function getTarget(cell, originCoord)
 {
     var direction = { i: cell.i - originCoord.i, j: cell.j - originCoord.j };
@@ -115,7 +122,4 @@ function getTarget(cell, originCoord)
     return target;
 }
 
-export
-{
-    getPossibleMoves, checkForUniqueness
-}
+

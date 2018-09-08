@@ -1,39 +1,55 @@
 import { getWinConditions } from "../logic/win-conditions.js"
-import {Board, Coord} from "../models.js"
+import { Board, Coord } from "../models.js"
 
-export { setBoardCellValue, getBoardLength, getBoardCellValue, isGameFinished, getBoardLayout, getCoord }
+export { 
+    setBoardCellValue, getBoardLength, getBoardCellValue, isGameFinished, getBoardLayout, getCoord 
+}
 
-function getBoardLayout() {
+function getBoardLayout()
+{
     return board.boardLayout;
 }
-function setBoardCellValue(coord, elementId) {
+
+function setBoardCellValue(coord, elementId)
+{
     board.setCellValue(coord, elementId);
 }
-function getBoardLength() {
+
+function getBoardLength()
+{
     return board.boardLayout.length;
 }
-function getBoardCellValue(coord) {
+
+function getBoardCellValue(coord)
+{
     return board.getCellValue(coord);
 }
-function isGameFinished() {
+
+function isGameFinished()
+{
     return board.gameFinished();
 }
 
-function getCoord(elementId) {
+function getCoord(elementId)
+{
 
     var istr = "";
     var jstr = "";
 
     var str = elementId;
 
-    while (str.length > 0) {
-        if (str.charAt(0) != ".") {
+    while (str.length > 0)
+    {
+        if (str.charAt(0) != ".")
+        {
             istr += str.charAt(0);
             str = str.slice(1);
         }
-        else {
+        else
+        {
             str = str.slice(1);
-            while (str.length > 0) {
+            while (str.length > 0)
+            {
                 jstr += str.charAt(0);
                 str = str.slice(1);
             }

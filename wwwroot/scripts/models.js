@@ -1,5 +1,9 @@
 import { getBoardLength, getBoardCellValue } from "./board/board.js"
 
+export {
+    Player, Piece, Coord, Board
+}
+
 class Board {
     constructor() {
         this.boardLayout = [
@@ -106,6 +110,3 @@ class Coord {
     }
 }
 
-export {
-    Player, Piece, Coord, Board
-}

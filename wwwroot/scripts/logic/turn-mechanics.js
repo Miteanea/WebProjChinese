@@ -1,9 +1,9 @@
 import { isGameFinished } from "../board/board.js"
 import { getObjectByElementId } from "../main.js"
 
-var currentPlayer = [];
-var players = [];
-var endGame = false;
+export {
+    startGame
+}
 
 function startGame(playerCollection) {
     players = playerCollection;
@@ -91,6 +91,6 @@ function thisTurn(playerColor) {
     }
 }
 
-export {
-    startGame
-}
+var currentPlayer = [];
+var players = [];
+var endGame = false;
