@@ -51,13 +51,13 @@ function getAdjacentCells(coord)
         }
     });
 
-    for (var i = 0; i < coords.length; i++)
+    for (let cell of coords)
     {
-        if ((coords[i].i <= 16 && coords[i].i >= 0) && (coords[i].j <= 16 && coords[i].j >= 0))
+        if ((cell.i <= 16 && cell.i >= 0) && (cell.j <= 16 && cell.j >= 0))
         {
-            adjacentCells.push(coords[i]);
+            adjacentCells.push(cell);
         }
-        else { adjacentCells.push(coords[i] = null) }
+        else { adjacentCells.push(cell = null) }
     }
     return adjacentCells;
 }

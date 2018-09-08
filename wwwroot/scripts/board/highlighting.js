@@ -3,25 +3,32 @@ import { getCoord, setPossibleMovesMain } from "../main.js"
 
 var possibleMovesCollection = []
 
-function highlightPossibleMoves(elementId) {
+function highlightPossibleMoves(elementId)
+{
     var coord = getCoord(elementId);
+    
     possibleMovesCollection = getPossibleMoves(coord);
-    if (possibleMovesCollection.length == 0) {
+    if (possibleMovesCollection.length == 0)
+    {
         possibleMovesCollection = null;
     }
     setPossibleMovesMain(possibleMovesCollection);
-    if (possibleMovesCollection != null) {
-        for (let cell of possibleMovesCollection) {
+    if (possibleMovesCollection != null)
+    {
+        for (let cell of possibleMovesCollection)
+        {
             $(`#${cell.i}\\.${cell.j}`).addClass("circleHighlighted");
         }
     }
 }
 
-function undoHighlightPossibleMoves() {
+function undoHighlightPossibleMoves()
+{
     setPossibleMovesMain([]);
     $("*").removeClass("circleHighlighted");
 }
 
-export {
+export
+{
     highlightPossibleMoves, undoHighlightPossibleMoves
 }
