@@ -1,5 +1,6 @@
 import { getPossibleMoves } from "../logic/possible-moves-calc.js"
-import { getCoord, setPossibleMovesMain } from "../main.js"
+import { setPossibleMovesMain } from "../main.js"
+import { getCoord } from "../board/board.js"
 
 var possibleMovesCollection = []
 

@@ -1,6 +1,6 @@
-import { setBoardCellValue, getBoardLength, getBoardCellValue } from "./board.js"
+import { setBoardCellValue, getBoardLength, getBoardCellValue, getCoord } from "./board.js"
 import { highlightPossibleMoves, undoHighlightPossibleMoves } from "./highlighting.js"
-import { getObjectByElementId, nrOfPlayers, getCoord } from "../main.js"
+import { getObjectByElementId, nrOfPlayers } from "../main.js"
 import { Coord } from "../models.js"
 
 export {drawBoard }
@@ -93,9 +93,7 @@ function drawCircle(x, y, circleId)
             var coord = getCoord(circle.id);
 
             var piece = getObjectByElementId(data);
-
-            console.log(piece);
-
+            
             setBoardCellValue(coord, piece.id);
             setBoardCellValue(piece.move.tempOrigin, "e");
 
