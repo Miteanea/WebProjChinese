@@ -3,9 +3,9 @@ import { Coord } from "../models.js";
 
 function addJumpCellsToMoves(movesColl, originCoord)
 {
-    var adjacentCellsCoord = getAdjacentCellsCoordinates(originCoord);
+    var adjacentCells = getAdjacentCells(originCoord);
 
-    for (let cell of adjacentCellsCoord)
+    for (let cell of adjacentCells)
     {
         if (cell != null && cell.boardValue != "e" && cell.boardValue != "x")
         {
@@ -29,7 +29,7 @@ function addJumpCellsToMoves(movesColl, originCoord)
     }
     return movesColl;
 }
-function getAdjacentCellsCoordinates(coord)
+function getAdjacentCells(coord)
 {
 
     var adjacentCells = [];
@@ -73,19 +73,20 @@ function getPossibleMoves(coord)
 
 function addEmptyCellsToMoves(movesColl, coord)
 {
-    var adjacentCellsCoord = getAdjacentCellsCoordinates(coord);
+    var adjacentCells = getAdjacentCells(coord);
 
-    for (var i = 0; i < adjacentCellsCoord.length; i++)
+    adjacentCells.forEach(function (cell)
     {
-        if (adjacentCellsCoord[i] != null &&
-            getBoardCellValue(adjacentCellsCoord[i]) == "e" &&
-            checkForUniqueness(movesColl, adjacentCellsCoord[i]))
+        if (cell != null &&
+            cell.boardValue == "e" &&
+            !movesColl.includes(cell))
         {
-            movesColl.push(adjacentCellsCoord[i]);
+            movesColl.push(cell);
         }
-    }
+    });
     return movesColl;
 }
+
 function checkForUniqueness(collection, target)
 {
     var unique = true;
