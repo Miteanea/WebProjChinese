@@ -27,7 +27,7 @@ class Board {
         this.boardLayout[coord.i][coord.j] = value;
     }
     getCellValue(coord) {
-
+        
         return this.boardLayout[coord.i][coord.j];
     }
     gameFinished() {

@@ -1,35 +1,38 @@
-import { getBoardCellValue} from "../board/board.js"
+import { getBoardCellValue } from "../board/board.js"
+import { Coord } from "../models.js";
 
-function addJumpCellsToMoves(movesColl, originCoord) {
+function addJumpCellsToMoves(movesColl, originCoord)
+{
+    var adjacentCellsCoord = getAdjacentCellsCoordinates(originCoord);
 
-    var nearbyCellsCoord = getNearbyCellsCoords(originCoord);
+    for (let cell of adjacentCellsCoord)
+    {
+        if (cell != null && cell.boardValue != "e" && cell.boardValue != "x")
+        {
+            var target = getTarget(cell, originCoord);
 
-    for (let cell of nearbyCellsCoord) {
-
-        if (cell != null &&
-            getBoardCellValue(cell) != "e" &&
-            getBoardCellValue(cell) != "x") {
-            var targetCoord = getTarget(cell, originCoord);
-
-            if (targetCoord != null &&
-                (targetCoord.i != targetCoord.origin.i || targetCoord.j != targetCoord.origin.j)) {
-                var unique = checkForUniqueness(movesColl, targetCoord);
-                if (unique &&
-                    getBoardCellValue(targetCoord) == "e") {
-                    movesColl.push(targetCoord);
+            if (target != null &&
+                (target.i != target.origin.i || target.j != target.origin.j))
+            {
+                var unique = checkForUniqueness(movesColl, target);
+                if (unique && target.boardValue == "e")
+                {
+                    movesColl.push(target);
                 }
 
-                if (getBoardCellValue(targetCoord) == "e" && unique) {
-                    movesColl = addJumpCellsToMoves(movesColl, targetCoord);
+                if (target.boardValue == "e" && unique)
+                {
+                    movesColl = addJumpCellsToMoves(movesColl, target);
                 }
             }
         }
     }
     return movesColl;
 }
-function getNearbyCellsCoords(coord) {
+function getAdjacentCellsCoordinates(coord)
+{
 
-    var nearbyIds = [];
+    var adjacentCells = [];
     var coords = [];
 
     var c1 = { i: coord.i - 1, j: coord.j + 0, id: `${coord.i - 1}.${coord.j + 0}` };
@@ -38,20 +41,28 @@ function getNearbyCellsCoords(coord) {
     var c4 = { i: coord.i + 1, j: coord.j + 0, id: `${coord.i + 1}.${coord.j + 0}` };
     var c5 = { i: coord.i + 1, j: coord.j - 1, id: `${coord.i + 1}.${coord.j - 1}` };
     var c6 = { i: coord.i - 0, j: coord.j - 1, id: `${coord.i - 0}.${coord.j - 1}` };
-
     coords.push(c1, c2, c3, c4, c5, c6);
 
-    for (var i = 0; i < coords.length; i++) {
-        if ((coords[i].i <= 16 && coords[i].i >= 0) && (coords[i].j <= 16 && coords[i].j >= 0)) {
-            nearbyIds.push(coords[i]);
+    coords.forEach(function (element)
+    {
+        if (element.i >= 0 && element.j <= 16)
+        {
+            element.boardValue = getBoardCellValue(new Coord(element.i, element.j));
         }
-        else { nearbyIds.push(coords[i] = null) }
+    });
+
+    for (var i = 0; i < coords.length; i++)
+    {
+        if ((coords[i].i <= 16 && coords[i].i >= 0) && (coords[i].j <= 16 && coords[i].j >= 0))
+        {
+            adjacentCells.push(coords[i]);
+        }
+        else { adjacentCells.push(coords[i] = null) }
     }
-    return nearbyIds;
-
-
+    return adjacentCells;
 }
-function getPossibleMoves(coord) {
+function getPossibleMoves(coord)
+{
     var moves = [];
 
     moves = addEmptyCellsToMoves(moves, coord);
@@ -60,36 +71,50 @@ function getPossibleMoves(coord) {
     return moves;
 }
 
-function addEmptyCellsToMoves(movesColl, coord) {
-    var nearbyCellsCoord = getNearbyCellsCoords(coord);
+function addEmptyCellsToMoves(movesColl, coord)
+{
+    var adjacentCellsCoord = getAdjacentCellsCoordinates(coord);
 
-    for (var i = 0; i < nearbyCellsCoord.length; i++) {
-        if (nearbyCellsCoord[i] != null &&
-            getBoardCellValue(nearbyCellsCoord[i]) == "e" &&
-            checkForUniqueness(movesColl, nearbyCellsCoord[i])) {
-            movesColl.push(nearbyCellsCoord[i]);
+    for (var i = 0; i < adjacentCellsCoord.length; i++)
+    {
+        if (adjacentCellsCoord[i] != null &&
+            getBoardCellValue(adjacentCellsCoord[i]) == "e" &&
+            checkForUniqueness(movesColl, adjacentCellsCoord[i]))
+        {
+            movesColl.push(adjacentCellsCoord[i]);
         }
     }
     return movesColl;
 }
-function checkForUniqueness(collection, target) {
+function checkForUniqueness(collection, target)
+{
     var unique = true;
-    for (let c of collection) {
-        if (target.i == c.i && target.j == c.j) {
+    for (let c of collection)
+    {
+        if (target.i == c.i && target.j == c.j)
+        {
             unique = false;
         }
     }
     return unique;
 }
-function getTarget(cell, originCoord) {
+function getTarget(cell, originCoord)
+{
     var direction = { i: cell.i - originCoord.i, j: cell.j - originCoord.j };
     var target = { i: cell.i + direction.i, j: cell.j + direction.j, origin: originCoord };
-    if (target.i > 16 || target.j > 16 || target.i < 0 || target.j < 0) {
+    if (target.i > 16 || target.j > 16 || target.i < 0 || target.j < 0)
+    {
         target = null;
     }
+    else
+    {
+        target.boardValue = getBoardCellValue(new Coord(target.i, target.j));
+    }
+
     return target;
 }
 
-export{
+export
+{
     getPossibleMoves, checkForUniqueness
 }
