@@ -36,16 +36,14 @@ function turn() {
 }
 
 function setMovedToFalse() {
-    var pieces = $(".soldier");
-    for (let piece of pieces) {
-        let object = getObjectByElementId(piece.id);
+    var soldiers = $(".soldier");
+    for (let soldier of soldiers) {
+        var piece = getObjectByElementId(soldier.id);
 
-        if (object.moved) {
-            object.moved = false;
-            object.move.from.i = object.move.to.i;
-            object.move.from.j = object.move.to.j;
-            object.move.to.i = null;
-            object.move.to.j = null;
+        if (piece.moved) {
+            piece.moved = false;
+            piece.move.from = piece.move.to;
+            piece.move.to = null;
         }
     }
 }

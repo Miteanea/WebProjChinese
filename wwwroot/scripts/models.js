@@ -95,7 +95,7 @@ class Piece {
         this.i = i;  this.j = j;
         this.id = `${color}${this.i}.${this.j}`;
         this.moved = false;
-        this.move = { from: new Coord(this.i, this.j), to: new Coord(null, null) }
+        this.move = { from: new Coord(this.i, this.j), to: new Coord(null, null), tempOrigin: new Coord(this.i, this.j) }
     }
 }
 

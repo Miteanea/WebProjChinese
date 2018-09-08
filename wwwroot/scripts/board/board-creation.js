@@ -90,25 +90,27 @@ function drawCircle(x, y, circleId)
             event.preventDefault();
             var data = ev.dataTransfer.getData("text");
             var element = document.getElementById(data);
-            var coord = getCoord(ev.target.id);
+            var coord = getCoord(circle.id);
 
             var piece = getObjectByElementId(data);
-            setBoardCellValue(coord, element.id.charAt(0));
-            setBoardCellValue(piece.move.from, "e");
+
+            console.log(piece);
+
+            setBoardCellValue(coord, piece.id);
+            setBoardCellValue(piece.move.tempOrigin, "e");
 
             ev.target.appendChild(element);
+            piece.move.tempOrigin = coord;
 
             if (!piece.moved)
             {
                 piece.moved = true;
-                piece.move.to.i = coord.i;
-                piece.move.to.j = coord.j;
+                piece.move.to = coord;
             }
             else
             {
                 piece.moved = false;
-                piece.move.to.i = null;
-                piece.move.to.j = null;
+                piece.move.to = null;
             }
 
             $("*").removeClass("circleHighlighted");
